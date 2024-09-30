@@ -1,0 +1,34 @@
+from PIL import Image
+from convertBW import *
+from convertMap import *
+from filter import *
+import matplotlib.pyplot as plt
+
+# Open the image file
+image_path = "C:/Users/RAJOS/Downloads/ImageProcessing/ImageProcessing/imageInput/nycSunsetSkyline.jpg"
+img = Image.open(image_path)
+img = img.convert("RGB")
+width, height = img.size
+#img_bw = convertBW(img,width,height)
+img_map = convertMap(img,width,height)
+img_map_bw = convertBW(img_map,width,height)
+img_map_smooth = linearSpatialFilter_smoothen(img_map_bw)
+
+# Create side-by-side plots
+fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+
+# Display the smoothed image on the left
+axes[0].imshow(img_map_bw)
+axes[0].axis('off')  # Hide axes
+axes[0].set_title('Smoothed BW (Normalized)')
+
+# Display the original BW image on the right
+axes[1].imshow(img_map, cmap = 'gray')
+axes[1].axis('off')  # Hide axes
+axes[1].set_title('Original BW')
+
+# Save the output image
+#img_map.save("C:/Users/RAJOS/Downloads/ImageProcessing/ImageProcessing/imageOutput/image_map1.jpg")
+
+# Show the plots
+plt.show()
